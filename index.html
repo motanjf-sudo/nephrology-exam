@@ -143,6 +143,12 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
   .exam-body{padding:18px 14px 36px}
   .q-box{padding:16px 18px;font-size:14px}
 }
+
+.count-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.count-btn{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px 28px;cursor:pointer;transition:all .2s;text-align:center;min-width:110px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.count-btn:hover{border-color:var(--accent);background:var(--accent-light);box-shadow:0 4px 16px rgba(45,106,79,0.12);transform:translateY(-2px)}
+.count-btn-num{font-size:22px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.count-btn-lbl{font-size:12px;color:var(--text3)}
 </style>
 </head>
 <body>
@@ -273,7 +279,7 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
       </div>
     </div>
     <div class="time-card">
-      <span>⏱</span>
+      
       <span>زمان: <strong id="r-time">--</strong></span>
       <span style="margin-right:auto;color:var(--text3)">میانگین: <strong id="r-avg">--</strong></span>
     </div>
@@ -329,25 +335,50 @@ function showSection(type, key){
       </div>`;
   } else {
     const qs = TOPIC_DATA[key]||[];
+    const total = qs.length;
+
+    // ساخت گزینه‌های تعداد سوال
+    const options = [];
+    for(let n=50; n<total; n+=50) options.push(n);
+    options.push(total); // همه
+
+    const btns = options.map(n =>
+      `<div class="count-btn" onclick="startExamWithCount('topic','${key}',${n})">
+        <div class="count-btn-num">${n===total?'همه':n}</div>
+        <div class="count-btn-lbl">${n===total?total+' سوال':n+' سوال'}</div>
+      </div>`
+    ).join('');
+
     main.innerHTML=`
       <div class="home-header">
         <div class="home-title">آزمون ${key}</div>
-        <div class="home-sub">${qs.length} سوال تخصصی در حیطه ${key}</div>
+        <div class="home-sub">تعداد سوالات مورد نظر را انتخاب کنید</div>
       </div>
-      <div class="cards-grid">
-        <div class="exam-card" onclick="startExam('topic','${key}')">
-          <div class="exam-card-label">آزمون موضوعی</div>
-          <div class="exam-card-title">آزمون ${key}</div>
-          <div class="exam-card-meta">
-            <span>📋 ${qs.length} سوال</span>
-            <span>⏱ ~${Math.round(qs.length*1.5)} دقیقه</span>
-          </div>
-        </div>
-      </div>`;
+      <div class="count-grid">${btns}</div>`;
   }
 }
 
 // ── EXAM ──
+function startExamWithCount(mode, key, count){
+  curMode=mode; curKey=key;
+  let raw = TOPIC_DATA[key]||[];
+  raw=[...raw].sort(()=>Math.random()-.5);
+  raw = raw.slice(0, count);
+  questions=raw.map(q=>{
+    const opts=[...q.opts];
+    const correctText=opts[q.correct];
+    const idx=[0,1,2,3].sort(()=>Math.random()-.5);
+    const shuffled=idx.map(i=>opts[i]);
+    return{...q,opts:shuffled,correct:shuffled.indexOf(correctText)};
+  });
+  curQ=0;answers={};elapsed=0;
+  document.getElementById('home-screen').style.display='none';
+  const el=document.getElementById('exam-screen');
+  el.style.display='flex';el.style.flexDirection='column';
+  document.getElementById('exam-title').textContent=`آزمون ${key} — ${count===raw.length?'همه سوالات':count+' سوال'}`;
+  startTimer();renderQ();
+}
+
 function startExam(mode, key){
   curMode=mode; curKey=key;
   let raw=[];
@@ -417,7 +448,7 @@ function renderQ(){
     document.getElementById('fb-header').className='feedback-header '+(isC?'correct':'wrong');
     document.getElementById('fb-header').innerHTML=isC
       ?`<span>✅</span> پاسخ شما درست است!`
-      :`<span>❌</span> پاسخ نادرست — گزینه صحیح: <strong>${OPT_LETTERS[q.correct]}) ${q.opts[q.correct]||''}</strong>`;
+      :`<span>❌</span> پاسخ نادرست`;
     const exp=q.exp&&q.exp.trim()?q.exp:(isC?`پاسخ صحیح گزینه ${OPT_LETTERS[q.correct]} است.`:`پاسخ صحیح: ${q.opts[q.correct]||''}`);
     document.getElementById('fb-body').innerHTML=`<div class="feedback-label">💡 توضیح</div>${exp}`;
     fb.classList.add('show');
