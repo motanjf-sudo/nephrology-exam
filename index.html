@@ -133,22 +133,94 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 .badge-w{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
 .result-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 
+/* ── MOBILE NAV (فقط موبایل) ── */
+.mobile-nav{display:none;position:fixed;bottom:0;right:0;left:0;z-index:200;background:#fff;border-top:1px solid var(--border);padding:6px 8px;gap:2px;box-shadow:0 -2px 12px rgba(0,0,0,0.07)}
+.mobile-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 6px;border-radius:10px;cursor:pointer;flex:1;font-size:10px;font-weight:600;color:var(--text3);transition:all .18s;border:none;background:none;font-family:inherit}
+.mobile-nav-item.active{color:var(--accent);background:var(--accent-light)}
+.mobile-nav-item-icon{font-size:18px;line-height:1}
+
+/* ── MOBILE DRAWER ── */
+.mobile-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;opacity:0;transition:opacity .25s}
+.mobile-drawer-overlay.open{opacity:1}
+.mobile-drawer{position:fixed;top:0;right:-100%;bottom:0;width:82%;max-width:300px;background:#fff;z-index:301;overflow-y:auto;transition:right .28s cubic-bezier(.22,1,.36,1);box-shadow:-4px 0 24px rgba(0,0,0,0.15)}
+.mobile-drawer.open{right:0}
+.mobile-drawer-header{padding:20px 18px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mobile-drawer-title{font-size:14px;font-weight:700;color:var(--accent)}
+.mobile-drawer-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);padding:4px 8px;border-radius:6px}
+.mobile-drawer-close:hover{background:#f0f0f0}
+
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
+  /* سایدبار دسکتاپ مخفی */
   .sidebar{display:none}
-  .main-area{padding:20px 16px}
+  .main-area{padding:16px 14px 90px}
+
+  /* موبایل نوار پایین */
+  .mobile-nav{display:flex}
+
+  /* هدر صفحه اصلی */
+  .home-title{font-size:22px}
+  .home-sub{font-size:14px}
+
+  /* کارت‌های آزمون */
   .cards-grid{grid-template-columns:1fr}
-}
-@media(max-width:600px){
+  .exam-card{padding:18px 16px}
+
+  /* هدر آزمون */
+  .exam-header{padding:10px 14px;gap:10px}
+  .exam-title-h{font-size:12px;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+  .exam-timer{font-size:12px;padding:4px 10px}
+
+  /* بدنه آزمون */
+  .exam-body{padding:14px 14px 100px}
+  .q-box{padding:16px 16px;font-size:14px;line-height:1.85}
+  .q-opt{padding:12px 14px;font-size:13.5px;gap:12px}
+  .opt-badge{width:28px;height:28px;font-size:11px}
+
+  /* دکمه‌های ناوبری آزمون */
+  .q-nav{gap:8px}
+  .q-nav-left{gap:6px;flex-wrap:wrap}
+  .btn{padding:10px 16px;font-size:13px}
+
+  /* نتیجه */
+  .result-body{padding:16px 14px 90px}
+  .result-hero{padding:24px 18px}
   .cats-grid{grid-template-columns:1fr}
-  .exam-body{padding:18px 14px 36px}
-  .q-box{padding:16px 18px;font-size:14px}
+  .result-stats{gap:16px}
+  .stat-n{font-size:20px}
+  .result-header{padding:10px 14px}
 }
+
+@media(max-width:400px){
+  .q-box{font-size:13.5px}
+  .btn{padding:9px 12px;font-size:12.5px}
+  .exam-title-h{display:none}
+}
+
+/* تاچ: حذف hover روی موبایل */
+@media(hover:none){
+  .exam-card:hover{transform:none;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+  .q-opt:hover:not(.disabled){border-color:var(--border);background:#fff}
+  .btn-primary:hover{box-shadow:none}
+}
+
+/* active state برای لمس */
+.q-opt:active:not(.disabled){border-color:var(--accent);background:var(--accent-light)}
+.exam-card:active{border-color:var(--accent);box-shadow:0 2px 8px rgba(45,106,79,0.1)}
+.btn:active{opacity:.85}
 
 .count-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
 .count-btn{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px 28px;cursor:pointer;transition:all .2s;text-align:center;min-width:110px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .count-btn:hover{border-color:var(--accent);background:var(--accent-light);box-shadow:0 4px 16px rgba(45,106,79,0.12);transform:translateY(-2px)}
 .count-btn-num{font-size:22px;font-weight:700;color:var(--accent);margin-bottom:4px}
 .count-btn-lbl{font-size:12px;color:var(--text3)}
+
+@media(max-width:768px){
+  .count-grid{gap:10px}
+  .count-btn{padding:16px 20px;min-width:90px;border-radius:12px}
+  .count-btn-num{font-size:20px}
+  .count-btn:active{border-color:var(--accent);background:var(--accent-light);transform:none}
+}
 </style>
 </head>
 <body>
@@ -160,59 +232,76 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
       <div class="sidebar-logo-text">بورد نفرولوژی</div>
       <div class="sidebar-logo-sub"></div>
     </div>
-
     <div class="sidebar-section">آزمون‌های جامع</div>
     <div class="sidebar-item active" onclick="showSection('series')" id="nav-series">
       <span class="sidebar-item-icon">📋</span>
       <span>آزمون‌های جامع</span>
     </div>
-
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">آزمون موضوعی</div>
     <div class="sidebar-item" onclick="showSection('topic','پیوند کلیه')" id="nav-پیوند کلیه">
-      <span class="sidebar-item-icon">🫀</span>
-      <span>پیوند کلیه</span>
+      <span class="sidebar-item-icon">🫀</span><span>پیوند کلیه</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','دیالیز')" id="nav-دیالیز">
-      <span class="sidebar-item-icon">💧</span>
-      <span>دیالیز</span>
+      <span class="sidebar-item-icon">💧</span><span>دیالیز</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','محاسباتی')" id="nav-محاسباتی">
-      <span class="sidebar-item-icon">🧮</span>
-      <span>محاسباتی</span>
+      <span class="sidebar-item-icon">🧮</span><span>محاسباتی</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','آب و الکترولیت')" id="nav-آب و الکترولیت">
-      <span class="sidebar-item-icon">⚗️</span>
-      <span>آب و الکترولیت</span>
+      <span class="sidebar-item-icon">⚗️</span><span>آب و الکترولیت</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','مقالات')" id="nav-مقالات">
-      <span class="sidebar-item-icon">📄</span>
-      <span>مقالات</span>
+      <span class="sidebar-item-icon">📄</span><span>مقالات</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','فشارخون')" id="nav-فشارخون">
-      <span class="sidebar-item-icon">🩺</span>
-      <span>فشارخون</span>
+      <span class="sidebar-item-icon">🩺</span><span>فشارخون</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','گلومرولونفریت')" id="nav-گلومرولونفریت">
-      <span class="sidebar-item-icon">🔬</span>
-      <span>گلومرولونفریت</span>
+      <span class="sidebar-item-icon">🔬</span><span>گلومرولونفریت</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','بیماری مزمن کلیه')" id="nav-بیماری مزمن کلیه">
-      <span class="sidebar-item-icon">🏥</span>
-      <span>بیماری مزمن کلیه</span>
+      <span class="sidebar-item-icon">🏥</span><span>بیماری مزمن کلیه</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','نارسایی حاد کلیه')" id="nav-نارسایی حاد کلیه">
-      <span class="sidebar-item-icon">⚡</span>
-      <span>نارسایی حاد کلیه</span>
+      <span class="sidebar-item-icon">⚡</span><span>نارسایی حاد کلیه</span>
     </div>
     <div class="sidebar-item" onclick="showSection('topic','سایر موضوعات')" id="nav-سایر موضوعات">
-      <span class="sidebar-item-icon">📂</span>
-      <span>سایر موضوعات</span>
+      <span class="sidebar-item-icon">📂</span><span>سایر موضوعات</span>
     </div>
   </div>
 
-  <div class="main-area" id="main-area">
-    <!-- محتوا اینجا لود میشه -->
+  <div class="main-area" id="main-area"></div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" id="mobile-nav">
+  <button class="mobile-nav-item active" id="mnav-series" onclick="mobileNav('series')">
+    <span class="mobile-nav-item-icon">📋</span>جامع
+  </button>
+  <button class="mobile-nav-item" id="mnav-topic" onclick="openDrawer()">
+    <span class="mobile-nav-item-icon">📚</span>موضوعی
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="mobile-drawer-header">
+    <div class="mobile-drawer-title">آزمون موضوعی</div>
+    <button class="mobile-drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div style="padding:10px 8px">
+    <div class="sidebar-item" onclick="drawerNav('پیوند کلیه')"><span class="sidebar-item-icon">🫀</span><span>پیوند کلیه</span></div>
+    <div class="sidebar-item" onclick="drawerNav('دیالیز')"><span class="sidebar-item-icon">💧</span><span>دیالیز</span></div>
+    <div class="sidebar-item" onclick="drawerNav('محاسباتی')"><span class="sidebar-item-icon">🧮</span><span>محاسباتی</span></div>
+    <div class="sidebar-item" onclick="drawerNav('آب و الکترولیت')"><span class="sidebar-item-icon">⚗️</span><span>آب و الکترولیت</span></div>
+    <div class="sidebar-item" onclick="drawerNav('مقالات')"><span class="sidebar-item-icon">📄</span><span>مقالات</span></div>
+    <div class="sidebar-item" onclick="drawerNav('فشارخون')"><span class="sidebar-item-icon">🩺</span><span>فشارخون</span></div>
+    <div class="sidebar-item" onclick="drawerNav('گلومرولونفریت')"><span class="sidebar-item-icon">🔬</span><span>گلومرولونفریت</span></div>
+    <div class="sidebar-item" onclick="drawerNav('بیماری مزمن کلیه')"><span class="sidebar-item-icon">🏥</span><span>بیماری مزمن کلیه</span></div>
+    <div class="sidebar-item" onclick="drawerNav('نارسایی حاد کلیه')"><span class="sidebar-item-icon">⚡</span><span>نارسایی حاد کلیه</span></div>
+    <div class="sidebar-item" onclick="drawerNav('سایر موضوعات')"><span class="sidebar-item-icon">📂</span><span>سایر موضوعات</span></div>
   </div>
 </div>
 
@@ -279,7 +368,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
       </div>
     </div>
     <div class="time-card">
-      
       <span>زمان: <strong id="r-time">--</strong></span>
       <span style="margin-right:auto;color:var(--text3)">میانگین: <strong id="r-avg">--</strong></span>
     </div>
@@ -299,7 +387,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 <script src="questions.js"></script>
 <script>
 
-
 const SNAMES={1:"آزمون جامع اول",2:"آزمون جامع دوم",3:"آزمون جامع سوم",4:"آزمون جامع چهارم",5:"آزمون جامع پنجم",6:"آزمون جامع ششم"};
 const CATS=["پیوند کلیه","دیالیز","محاسباتی","آب و الکترولیت","مقالات","فشارخون","گلومرولونفریت","بیماری مزمن کلیه","نارسایی حاد کلیه","سایر موضوعات"];
 const OPT_LETTERS=["الف","ب","ج","د"];
@@ -307,9 +394,33 @@ const OPT_LETTERS=["الف","ب","ج","د"];
 let curMode=null,curKey=null,questions=[],curQ=0,answers={};
 let timerInt=null,elapsed=0,startTime=null;
 
+// ── MOBILE DRAWER ──
+function openDrawer(){
+  document.getElementById('drawer-overlay').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('drawer-overlay').classList.add('open');
+    document.getElementById('mobile-drawer').classList.add('open');
+  },10);
+}
+function closeDrawer(){
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.getElementById('mobile-drawer').classList.remove('open');
+  setTimeout(()=>document.getElementById('drawer-overlay').style.display='none',280);
+}
+function drawerNav(key){
+  closeDrawer();
+  showSection('topic',key);
+  document.getElementById('mnav-series').classList.remove('active');
+  document.getElementById('mnav-topic').classList.add('active');
+}
+function mobileNav(type){
+  document.getElementById('mnav-series').classList.toggle('active',type==='series');
+  document.getElementById('mnav-topic').classList.toggle('active',type==='topic');
+  if(type==='series') showSection('series');
+}
+
 // ── HOME ──
 function showSection(type, key){
-  // آپدیت sidebar
   document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
   const navId = type==='series' ? 'nav-series' : 'nav-'+key;
   const navEl = document.getElementById(navId);
@@ -336,19 +447,15 @@ function showSection(type, key){
   } else {
     const qs = TOPIC_DATA[key]||[];
     const total = qs.length;
-
-    // ساخت گزینه‌های تعداد سوال
     const options = [];
     for(let n=50; n<total; n+=50) options.push(n);
-    options.push(total); // همه
-
+    options.push(total);
     const btns = options.map(n =>
       `<div class="count-btn" onclick="startExamWithCount('topic','${key}',${n})">
         <div class="count-btn-num">${n===total?'همه':n}</div>
         <div class="count-btn-lbl">${n===total?total+' سوال':n+' سوال'}</div>
       </div>`
     ).join('');
-
     main.innerHTML=`
       <div class="home-header">
         <div class="home-title">آزمون ${key}</div>
@@ -373,6 +480,7 @@ function startExamWithCount(mode, key, count){
   });
   curQ=0;answers={};elapsed=0;
   document.getElementById('home-screen').style.display='none';
+  document.getElementById('mobile-nav').style.display='none';
   const el=document.getElementById('exam-screen');
   el.style.display='flex';el.style.flexDirection='column';
   document.getElementById('exam-title').textContent=`آزمون ${key} — ${count===raw.length?'همه سوالات':count+' سوال'}`;
@@ -397,6 +505,7 @@ function startExam(mode, key){
   });
   curQ=0;answers={};elapsed=0;
   document.getElementById('home-screen').style.display='none';
+  document.getElementById('mobile-nav').style.display='none';
   const el=document.getElementById('exam-screen');
   el.style.display='flex';el.style.flexDirection='column';
   const title = mode==='series' ? SNAMES[key] : `آزمون ${key}`;
@@ -471,6 +580,7 @@ function goBack(){
   if(!confirm('خارج شوید؟'))return;
   clearInterval(timerInt);
   document.getElementById('exam-screen').style.display='none';
+  document.getElementById('mobile-nav').style.display='';
   document.getElementById('home-screen').style.display='flex';
 }
 
@@ -543,6 +653,7 @@ function showResult(){
 
 function goHome(){
   document.getElementById('result-screen').style.display='none';
+  document.getElementById('mobile-nav').style.display='';
   document.getElementById('home-screen').style.display='flex';
 }
 function retakeExam(){
