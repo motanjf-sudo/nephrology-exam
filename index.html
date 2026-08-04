@@ -415,7 +415,9 @@ function showSection(type, key){
   } else {
     const oldQs = (TOPIC_DATA[key]||[]);
     const newQs = (NEW_TOPIC_DATA[key]||[]);
-    const total = oldQs.length + newQs.length;
+    const oldTotal = oldQs.length;
+    const newTotal = newQs.length;
+    const total = oldTotal + newTotal;
 
     if(total===0){
       main.innerHTML=`
@@ -426,29 +428,93 @@ function showSection(type, key){
       return;
     }
 
-    const options=[];
-    for(let n=50;n<total;n+=50) options.push(n);
-    options.push(total);
-    const btns=options.map(n=>
+    // دکمه‌های ترکیبی (قدیمی + جدید)
+    const allOptions=[];
+    for(let n=50;n<total;n+=50) allOptions.push(n);
+    allOptions.push(total);
+    const allBtns=allOptions.map(n=>
       `<div class="count-btn" onclick="startExamWithCount('topic','${key}',${n})">
         <div class="count-btn-num">${n===total?'همه':n}</div>
         <div class="count-btn-lbl">${n===total?total+' سوال':n+' سوال'}</div>
       </div>`
     ).join('');
 
-    const oldInfo = oldQs.length>0 ? `<span style="color:var(--text3);font-size:12px">قدیمی: ${oldQs.length} سوال</span>` : '';
-    const newInfo = newQs.length>0 ? `<span style="color:var(--new);font-size:12px">✨ جدید: ${newQs.length} سوال</span>` : '';
+    // دکمه‌های جدید (فقط NEW_TOPIC_DATA)
+    const newOptions=[];
+    for(let n=50;n<newTotal;n+=50) newOptions.push(n);
+    if(newTotal>0) newOptions.push(newTotal);
+    const newBtns=newOptions.map(n=>
+      `<div class="count-btn" style="border-color:var(--new-border);background:#fdfbff" onclick="startExamWithCountNew('${key}',${n})">
+        <div class="count-btn-num" style="color:var(--new)">${n===newTotal?'همه':n}</div>
+        <div class="count-btn-lbl">${n===newTotal?newTotal+' سوال':n+' سوال'}</div>
+      </div>`
+    ).join('');
 
     main.innerHTML=`
       <div class="home-header">
         <div class="home-title">آزمون ${key}</div>
-        <div class="home-sub" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-          ${oldInfo}${newInfo}
-        </div>
       </div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:12px">تعداد سوالات مورد نظر را انتخاب کنید</div>
-      <div class="count-grid">${btns}</div>`;
+      ${oldTotal>0?`
+      <div class="section-label">آزمون‌های قدیمی — ${oldTotal} سوال</div>
+      <div class="count-grid" style="margin-bottom:8px">
+        ${(() => {
+          const opts=[];
+          for(let n=50;n<oldTotal;n+=50) opts.push(n);
+          opts.push(oldTotal);
+          return opts.map(n=>
+            `<div class="count-btn" onclick="startExamWithCountOld('${key}',${n})">
+              <div class="count-btn-num">${n===oldTotal?'همه':n}</div>
+              <div class="count-btn-lbl">${n===oldTotal?oldTotal+' سوال':n+' سوال'}</div>
+            </div>`
+          ).join('');
+        })()}
+      </div>`:''}
+      ${newTotal>0?`
+      <div class="section-label new-label">✨ سوالات جدید — ${newTotal} سوال</div>
+      <div class="count-grid" style="margin-bottom:8px">${newBtns}</div>`:''}
+      <div class="section-label" style="color:var(--accent)">همه سوالات (قدیمی + جدید) — ${total} سوال</div>
+      <div class="count-grid">${allBtns}</div>`;
   }
+}
+
+function startExamWithCountOld(key, count){
+  curMode='topic'; curKey=key;
+  let raw = [...(TOPIC_DATA[key]||[])];
+  raw=[...raw].sort(()=>Math.random()-.5).slice(0,count);
+  questions=raw.map(q=>{
+    const opts=[...q.opts];
+    const correctText=opts[q.correct];
+    const idx=[0,1,2,3].sort(()=>Math.random()-.5);
+    const shuffled=idx.map(i=>opts[i]);
+    return{...q,opts:shuffled,correct:shuffled.indexOf(correctText)};
+  });
+  curQ=0;answers={};elapsed=0;
+  document.getElementById('home-screen').style.display='none';
+  document.getElementById('mobile-nav').style.display='none';
+  const el=document.getElementById('exam-screen');
+  el.style.display='flex';el.style.flexDirection='column';
+  document.getElementById('exam-title').textContent=`آزمون ${key} (قدیمی) — ${count} سوال`;
+  startTimer();renderQ();
+}
+
+function startExamWithCountNew(key, count){
+  curMode='topic'; curKey=key;
+  let raw = [...(NEW_TOPIC_DATA[key]||[])];
+  raw=[...raw].sort(()=>Math.random()-.5).slice(0,count);
+  questions=raw.map(q=>{
+    const opts=[...q.opts];
+    const correctText=opts[q.correct];
+    const idx=[0,1,2,3].sort(()=>Math.random()-.5);
+    const shuffled=idx.map(i=>opts[i]);
+    return{...q,opts:shuffled,correct:shuffled.indexOf(correctText)};
+  });
+  curQ=0;answers={};elapsed=0;
+  document.getElementById('home-screen').style.display='none';
+  document.getElementById('mobile-nav').style.display='none';
+  const el=document.getElementById('exam-screen');
+  el.style.display='flex';el.style.flexDirection='column';
+  document.getElementById('exam-title').textContent=`✨ آزمون ${key} (جدید) — ${count} سوال`;
+  startTimer();renderQ();
 }
 
 function startExamWithCount(mode, key, count){
