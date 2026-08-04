@@ -12,16 +12,13 @@
   --green:#1a7a48;--green-bg:#e6f4ec;--green-border:#a8d5b8;
   --red:#b83232;--red-bg:#fceaea;--red-border:#e8b0b0;
   --yellow:#9a6b1a;--yellow-bg:#fef5e0;--yellow-border:#e8d090;
+  --new:#5b3fa0;--new-bg:#f0ebff;--new-border:#c9b8f0;
   --text:#1c1c18;--text2:#58554a;--text3:#9a9282;
   --border:#ebebeb;--sidebar-w:230px;
   --radius:12px;--radius-sm:8px;
 }
 body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-height:100vh;direction:rtl}
-
-/* ── HOME ── */
 #home-screen{display:flex;min-height:100vh}
-
-/* sidebar */
 .sidebar{width:var(--sidebar-w);background:#f8f9fa;border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
 .sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid var(--border)}
 .sidebar-logo-text{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px}
@@ -33,22 +30,23 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 .sidebar-item.active::before{content:"";position:absolute;right:0;top:20%;height:60%;width:3px;background:var(--accent);border-radius:0 2px 2px 0}
 .sidebar-item-icon{font-size:16px;flex-shrink:0;width:20px;text-align:center}
 .sidebar-divider{height:1px;background:var(--border);margin:8px 16px}
-
-/* main area */
+.new-badge{font-size:9px;font-weight:700;background:var(--new);color:#fff;padding:2px 6px;border-radius:6px;margin-right:auto}
 .main-area{flex:1;overflow-y:auto;padding:36px 40px;max-width:900px}
 .home-header{margin-bottom:36px}
 .home-title{font-size:28px;font-weight:700;margin-bottom:8px}
 .home-sub{font-size:15px;color:var(--text2);line-height:1.7}
-
-/* card grid */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:40px}
+.section-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:2px;margin-bottom:14px;margin-top:28px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+.section-label.new-label{color:var(--new)}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:16px}
 .exam-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:22px 20px;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .exam-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(45,106,79,0.12);transform:translateY(-2px)}
+.exam-card.new-card{border-color:var(--new-border);background:#fdfbff}
+.exam-card.new-card:hover{border-color:var(--new);box-shadow:0 4px 16px rgba(91,63,160,0.12)}
 .exam-card-label{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:1.5px;margin-bottom:8px}
+.exam-card.new-card .exam-card-label{color:var(--new)}
 .exam-card-title{font-size:16px;font-weight:700;margin-bottom:6px}
 .exam-card-meta{font-size:12px;color:var(--text3);margin-top:12px;display:flex;gap:12px;flex-wrap:wrap}
-
-/* ── EXAM ── */
 #exam-screen{display:none;flex-direction:column;min-height:100vh;background:#fff}
 .exam-header{background:#fff;border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 5px rgba(0,0,0,0.04)}
 .exam-back-btn{background:none;border:1.5px solid var(--border);color:var(--text2);border-radius:var(--radius-sm);padding:7px 14px;cursor:pointer;font-family:inherit;font-size:13px;transition:all .2s}
@@ -60,7 +58,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 .exam-prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),#52b788);border-radius:3px;transition:width .4s}
 .exam-timer{font-size:13px;font-weight:700;color:var(--yellow);background:var(--yellow-bg);border:1px solid var(--yellow-border);padding:5px 12px;border-radius:8px;white-space:nowrap}
 .exam-timer.warn{color:var(--red);background:var(--red-bg);border-color:var(--red-border)}
-
 .exam-body{flex:1;max-width:780px;margin:0 auto;width:100%;padding:28px 20px 48px}
 .q-num-line{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .q-num-line::after{content:"";flex:1;height:1px;background:var(--border)}
@@ -96,8 +93,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 .btn-finish{background:var(--green);color:#fff}
 .btn-finish:hover{background:#145c36}
 .btn-sm{padding:8px 16px;font-size:13px}
-
-/* ── RESULT ── */
 #result-screen{display:none;flex-direction:column;min-height:100vh;background:#fff}
 .result-header{background:#fff;border-bottom:1px solid var(--border);padding:13px 22px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
 .result-body{max-width:860px;margin:0 auto;width:100%;padding:32px 20px 56px}
@@ -132,14 +127,10 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 .badge-m{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-border)}
 .badge-w{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
 .result-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-
-/* ── MOBILE NAV (فقط موبایل) ── */
 .mobile-nav{display:none;position:fixed;bottom:0;right:0;left:0;z-index:200;background:#fff;border-top:1px solid var(--border);padding:6px 8px;gap:2px;box-shadow:0 -2px 12px rgba(0,0,0,0.07)}
 .mobile-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 6px;border-radius:10px;cursor:pointer;flex:1;font-size:10px;font-weight:600;color:var(--text3);transition:all .18s;border:none;background:none;font-family:inherit}
 .mobile-nav-item.active{color:var(--accent);background:var(--accent-light)}
 .mobile-nav-item-icon{font-size:18px;line-height:1}
-
-/* ── MOBILE DRAWER ── */
 .mobile-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;opacity:0;transition:opacity .25s}
 .mobile-drawer-overlay.open{opacity:1}
 .mobile-drawer{position:fixed;top:0;right:-100%;bottom:0;width:82%;max-width:300px;background:#fff;z-index:301;overflow-y:auto;transition:right .28s cubic-bezier(.22,1,.36,1);box-shadow:-4px 0 24px rgba(0,0,0,0.15)}
@@ -148,84 +139,57 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 .mobile-drawer-title{font-size:14px;font-weight:700;color:var(--accent)}
 .mobile-drawer-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);padding:4px 8px;border-radius:6px}
 .mobile-drawer-close:hover{background:#f0f0f0}
-
-/* ── RESPONSIVE ── */
+.count-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.count-btn{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px 28px;cursor:pointer;transition:all .2s;text-align:center;min-width:110px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.count-btn:hover{border-color:var(--accent);background:var(--accent-light);box-shadow:0 4px 16px rgba(45,106,79,0.12);transform:translateY(-2px)}
+.count-btn-num{font-size:22px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.count-btn-lbl{font-size:12px;color:var(--text3)}
 @media(max-width:768px){
-  /* سایدبار دسکتاپ مخفی */
   .sidebar{display:none}
   .main-area{padding:16px 14px 90px}
-
-  /* موبایل نوار پایین */
   .mobile-nav{display:flex}
-
-  /* هدر صفحه اصلی */
   .home-title{font-size:22px}
   .home-sub{font-size:14px}
-
-  /* کارت‌های آزمون */
   .cards-grid{grid-template-columns:1fr}
   .exam-card{padding:18px 16px}
-
-  /* هدر آزمون */
   .exam-header{padding:10px 14px;gap:10px}
   .exam-title-h{font-size:12px;max-width:90px;overflow:hidden;text-overflow:ellipsis}
   .exam-timer{font-size:12px;padding:4px 10px}
-
-  /* بدنه آزمون */
   .exam-body{padding:14px 14px 100px}
   .q-box{padding:16px 16px;font-size:14px;line-height:1.85}
   .q-opt{padding:12px 14px;font-size:13.5px;gap:12px}
   .opt-badge{width:28px;height:28px;font-size:11px}
-
-  /* دکمه‌های ناوبری آزمون */
   .q-nav{gap:8px}
   .q-nav-left{gap:6px;flex-wrap:wrap}
   .btn{padding:10px 16px;font-size:13px}
-
-  /* نتیجه */
   .result-body{padding:16px 14px 90px}
   .result-hero{padding:24px 18px}
   .cats-grid{grid-template-columns:1fr}
   .result-stats{gap:16px}
   .stat-n{font-size:20px}
   .result-header{padding:10px 14px}
+  .count-grid{gap:10px}
+  .count-btn{padding:16px 20px;min-width:90px;border-radius:12px}
+  .count-btn-num{font-size:20px}
 }
-
 @media(max-width:400px){
   .q-box{font-size:13.5px}
   .btn{padding:9px 12px;font-size:12.5px}
   .exam-title-h{display:none}
 }
-
-/* تاچ: حذف hover روی موبایل */
 @media(hover:none){
   .exam-card:hover{transform:none;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
   .q-opt:hover:not(.disabled){border-color:var(--border);background:#fff}
   .btn-primary:hover{box-shadow:none}
+  .count-btn:hover{transform:none}
 }
-
-/* active state برای لمس */
 .q-opt:active:not(.disabled){border-color:var(--accent);background:var(--accent-light)}
 .exam-card:active{border-color:var(--accent);box-shadow:0 2px 8px rgba(45,106,79,0.1)}
 .btn:active{opacity:.85}
-
-.count-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
-.count-btn{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px 28px;cursor:pointer;transition:all .2s;text-align:center;min-width:110px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
-.count-btn:hover{border-color:var(--accent);background:var(--accent-light);box-shadow:0 4px 16px rgba(45,106,79,0.12);transform:translateY(-2px)}
-.count-btn-num{font-size:22px;font-weight:700;color:var(--accent);margin-bottom:4px}
-.count-btn-lbl{font-size:12px;color:var(--text3)}
-
-@media(max-width:768px){
-  .count-grid{gap:10px}
-  .count-btn{padding:16px 20px;min-width:90px;border-radius:12px}
-  .count-btn-num{font-size:20px}
-  .count-btn:active{border-color:var(--accent);background:var(--accent-light);transform:none}
-}
 </style>
 </head>
 <body>
 
-<!-- HOME -->
 <div id="home-screen">
   <div class="sidebar">
     <div class="sidebar-logo">
@@ -234,8 +198,7 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
     </div>
     <div class="sidebar-section">آزمون‌های جامع</div>
     <div class="sidebar-item active" onclick="showSection('series')" id="nav-series">
-      <span class="sidebar-item-icon">📋</span>
-      <span>آزمون‌های جامع</span>
+      <span class="sidebar-item-icon">📋</span><span>آزمون‌های جامع</span>
     </div>
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">آزمون موضوعی</div>
@@ -270,11 +233,9 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
       <span class="sidebar-item-icon">📂</span><span>سایر موضوعات</span>
     </div>
   </div>
-
   <div class="main-area" id="main-area"></div>
 </div>
 
-<!-- MOBILE BOTTOM NAV -->
 <nav class="mobile-nav" id="mobile-nav">
   <button class="mobile-nav-item active" id="mnav-series" onclick="mobileNav('series')">
     <span class="mobile-nav-item-icon">📋</span>جامع
@@ -284,7 +245,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
   </button>
 </nav>
 
-<!-- MOBILE DRAWER -->
 <div class="mobile-drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="mobile-drawer-header">
@@ -305,7 +265,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
   </div>
 </div>
 
-<!-- EXAM -->
 <div id="exam-screen">
   <div class="exam-header">
     <button class="exam-back-btn" onclick="goBack()">← خروج</button>
@@ -338,7 +297,6 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
   </div>
 </div>
 
-<!-- RESULT -->
 <div id="result-screen">
   <div class="result-header">
     <button class="btn btn-ghost btn-sm" onclick="goHome()">🏠 خانه</button>
@@ -385,16 +343,20 @@ body{font-family:"Vazirmatn",sans-serif;background:#fff;color:var(--text);min-he
 </div>
 
 <script src="questions.js"></script>
+<script src="new_questions.js"></script>
 <script>
 
-const SNAMES={1:"آزمون جامع اول",2:"آزمون جامع دوم",3:"آزمون جامع سوم",4:"آزمون جامع چهارم",5:"آزمون جامع پنجم",6:"آزمون جامع ششم"};
+const SNAMES={
+  1:"آزمون جامع اول",2:"آزمون جامع دوم",3:"آزمون جامع سوم",
+  4:"آزمون جامع چهارم",5:"آزمون جامع پنجم",6:"آزمون جامع ششم",
+  7:"آزمون جامع هفتم",8:"آزمون جامع هشتم"
+};
 const CATS=["پیوند کلیه","دیالیز","محاسباتی","آب و الکترولیت","مقالات","فشارخون","گلومرولونفریت","بیماری مزمن کلیه","نارسایی حاد کلیه","سایر موضوعات"];
 const OPT_LETTERS=["الف","ب","ج","د"];
 
 let curMode=null,curKey=null,questions=[],curQ=0,answers={};
 let timerInt=null,elapsed=0,startTime=null;
 
-// ── MOBILE DRAWER ──
 function openDrawer(){
   document.getElementById('drawer-overlay').style.display='block';
   setTimeout(()=>{
@@ -419,7 +381,6 @@ function mobileNav(type){
   if(type==='series') showSection('series');
 }
 
-// ── HOME ──
 function showSection(type, key){
   document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
   const navId = type==='series' ? 'nav-series' : 'nav-'+key;
@@ -429,48 +390,74 @@ function showSection(type, key){
   const main = document.getElementById('main-area');
 
   if(type==='series'){
+    const oldNums=[1,2,3,4,5,6];
+    const newNums=[7,8];
+    const cardHtml=(s,isNew)=>{
+      const data=EXAM_DATA[s]||EXAM_DATA[String(s)]||[];
+      return `<div class="exam-card${isNew?' new-card':''}" onclick="startExam('series',${s})">
+        <div class="exam-card-label">${isNew?'✨ آزمون جامع جدید':'آزمون جامع'}</div>
+        <div class="exam-card-title">${SNAMES[s]}</div>
+        <div class="exam-card-meta">
+          <span>📋 ${data.length} سوال</span>
+          <span>🏷 ۱۰ حیطه</span>
+        </div>
+      </div>`;
+    };
     main.innerHTML=`
       <div class="home-header">
         <div class="home-title">آزمون‌های جامع</div>
-        <div class="home-sub">۶ آزمون جامع، هر کدام با ۱۵۰ سوال تاکسونومی ۳ از تمام حیطه‌های نفرولوژی</div>
+        <div class="home-sub">آزمون‌های جامع چهارگزینه‌ای تاکسونومی ۳ از تمام حیطه‌های نفرولوژی</div>
       </div>
-      <div class="cards-grid">${[1,2,3,4,5,6].map(s=>`
-        <div class="exam-card" onclick="startExam('series',${s})">
-          <div class="exam-card-label">آزمون جامع</div>
-          <div class="exam-card-title">آزمون جامع ${['اول','دوم','سوم','چهارم','پنجم','ششم'][s-1]}</div>
-          <div class="exam-card-meta">
-            <span>📋 ${(EXAM_DATA[s]||EXAM_DATA[String(s)]||[]).length} سوال</span>
-            <span>🏷 ۱۰ حیطه</span>
-          </div>
-        </div>`).join('')}
-      </div>`;
+      <div class="section-label">آزمون‌های قدیمی</div>
+      <div class="cards-grid">${oldNums.map(s=>cardHtml(s,false)).join('')}</div>
+      <div class="section-label new-label">✨ آزمون‌های جدید</div>
+      <div class="cards-grid">${newNums.map(s=>cardHtml(s,true)).join('')}</div>`;
   } else {
-    const qs = TOPIC_DATA[key]||[];
-    const total = qs.length;
-    const options = [];
-    for(let n=50; n<total; n+=50) options.push(n);
+    const oldQs = (TOPIC_DATA[key]||[]);
+    const newQs = (NEW_TOPIC_DATA[key]||[]);
+    const total = oldQs.length + newQs.length;
+
+    if(total===0){
+      main.innerHTML=`
+        <div class="home-header">
+          <div class="home-title">آزمون ${key}</div>
+          <div class="home-sub">سوالی برای این موضوع یافت نشد.</div>
+        </div>`;
+      return;
+    }
+
+    const options=[];
+    for(let n=50;n<total;n+=50) options.push(n);
     options.push(total);
-    const btns = options.map(n =>
+    const btns=options.map(n=>
       `<div class="count-btn" onclick="startExamWithCount('topic','${key}',${n})">
         <div class="count-btn-num">${n===total?'همه':n}</div>
         <div class="count-btn-lbl">${n===total?total+' سوال':n+' سوال'}</div>
       </div>`
     ).join('');
+
+    const oldInfo = oldQs.length>0 ? `<span style="color:var(--text3);font-size:12px">قدیمی: ${oldQs.length} سوال</span>` : '';
+    const newInfo = newQs.length>0 ? `<span style="color:var(--new);font-size:12px">✨ جدید: ${newQs.length} سوال</span>` : '';
+
     main.innerHTML=`
       <div class="home-header">
         <div class="home-title">آزمون ${key}</div>
-        <div class="home-sub">تعداد سوالات مورد نظر را انتخاب کنید</div>
+        <div class="home-sub" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          ${oldInfo}${newInfo}
+        </div>
       </div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:12px">تعداد سوالات مورد نظر را انتخاب کنید</div>
       <div class="count-grid">${btns}</div>`;
   }
 }
 
-// ── EXAM ──
 function startExamWithCount(mode, key, count){
   curMode=mode; curKey=key;
-  let raw = TOPIC_DATA[key]||[];
+  const oldQs = TOPIC_DATA[key]||[];
+  const newQs = NEW_TOPIC_DATA[key]||[];
+  let raw = [...oldQs, ...newQs];
   raw=[...raw].sort(()=>Math.random()-.5);
-  raw = raw.slice(0, count);
+  raw=raw.slice(0,count);
   questions=raw.map(q=>{
     const opts=[...q.opts];
     const correctText=opts[q.correct];
@@ -483,7 +470,7 @@ function startExamWithCount(mode, key, count){
   document.getElementById('mobile-nav').style.display='none';
   const el=document.getElementById('exam-screen');
   el.style.display='flex';el.style.flexDirection='column';
-  document.getElementById('exam-title').textContent=`آزمون ${key} — ${count===raw.length?'همه سوالات':count+' سوال'}`;
+  document.getElementById('exam-title').textContent=`آزمون ${key} — ${count} سوال`;
   startTimer();renderQ();
 }
 
@@ -493,7 +480,9 @@ function startExam(mode, key){
   if(mode==='series'){
     raw=EXAM_DATA[key]||EXAM_DATA[String(key)]||[];
   } else {
-    raw=TOPIC_DATA[key]||[];
+    const oldQs=TOPIC_DATA[key]||[];
+    const newQs=NEW_TOPIC_DATA[key]||[];
+    raw=[...oldQs,...newQs];
   }
   raw=[...raw].sort(()=>Math.random()-.5);
   questions=raw.map(q=>{
@@ -508,7 +497,7 @@ function startExam(mode, key){
   document.getElementById('mobile-nav').style.display='none';
   const el=document.getElementById('exam-screen');
   el.style.display='flex';el.style.flexDirection='column';
-  const title = mode==='series' ? SNAMES[key] : `آزمون ${key}`;
+  const title=mode==='series'?SNAMES[key]:`آزمون ${key}`;
   document.getElementById('exam-title').textContent=title;
   startTimer();renderQ();
 }
@@ -537,7 +526,7 @@ function renderQ(){
 
   const optsEl=document.getElementById('q-opts');
   optsEl.innerHTML='';
-  const ua=answers[curQ], isAns=ua!==undefined;
+  const ua=answers[curQ],isAns=ua!==undefined;
   q.opts.forEach((opt,i)=>{
     if(!opt||!opt.trim())return;
     const div=document.createElement('div');
@@ -584,7 +573,6 @@ function goBack(){
   document.getElementById('home-screen').style.display='flex';
 }
 
-// ── RESULT ──
 function showResult(){
   document.getElementById('exam-screen').style.display='none';
   const el=document.getElementById('result-screen');
@@ -661,7 +649,6 @@ function retakeExam(){
   startExam(curMode,curKey);
 }
 
-// init
 showSection('series');
 </script>
 </body>
