@@ -390,12 +390,11 @@ function showSection(type, key){
   const main = document.getElementById('main-area');
 
   if(type==='series'){
-    const oldNums=[1,2,3,4,5,6];
     const newNums=[7,8];
-    const cardHtml=(s,isNew)=>{
-      const data=EXAM_DATA[s]||EXAM_DATA[String(s)]||[];
-      return `<div class="exam-card${isNew?' new-card':''}" onclick="startExam('series',${s})">
-        <div class="exam-card-label">${isNew?'✨ آزمون جامع جدید':'آزمون جامع'}</div>
+    const cardHtml=(s)=>{
+      const data=(NEW_EXAM_DATA&&NEW_EXAM_DATA[s])||[];
+      return `<div class="exam-card new-card" onclick="startExam('series',${s})">
+        <div class="exam-card-label">✨ آزمون جامع جدید</div>
         <div class="exam-card-title">${SNAMES[s]}</div>
         <div class="exam-card-meta">
           <span>📋 ${data.length} سوال</span>
@@ -408,18 +407,13 @@ function showSection(type, key){
         <div class="home-title">آزمون‌های جامع</div>
         <div class="home-sub">آزمون‌های جامع چهارگزینه‌ای تاکسونومی ۳ از تمام حیطه‌های نفرولوژی</div>
       </div>
-      <div class="section-label">آزمون‌های قدیمی</div>
-      <div class="cards-grid">${oldNums.map(s=>cardHtml(s,false)).join('')}</div>
       <div class="section-label new-label">✨ آزمون‌های جدید</div>
-      <div class="cards-grid">${newNums.map(s=>cardHtml(s,true)).join('')}</div>`;
+      <div class="cards-grid">${newNums.map(s=>cardHtml(s)).join('')}</div>`;
   } else {
-    const oldQs = (TOPIC_DATA[key]||[]);
     const newQs = (NEW_TOPIC_DATA[key]||[]);
-    const oldTotal = oldQs.length;
     const newTotal = newQs.length;
-    const total = oldTotal + newTotal;
 
-    if(total===0){
+    if(newTotal===0){
       main.innerHTML=`
         <div class="home-header">
           <div class="home-title">آزمون ${key}</div>
@@ -428,21 +422,9 @@ function showSection(type, key){
       return;
     }
 
-    // دکمه‌های ترکیبی (قدیمی + جدید)
-    const allOptions=[];
-    for(let n=50;n<total;n+=50) allOptions.push(n);
-    allOptions.push(total);
-    const allBtns=allOptions.map(n=>
-      `<div class="count-btn" onclick="startExamWithCount('topic','${key}',${n})">
-        <div class="count-btn-num">${n===total?'همه':n}</div>
-        <div class="count-btn-lbl">${n===total?total+' سوال':n+' سوال'}</div>
-      </div>`
-    ).join('');
-
-    // دکمه‌های جدید (فقط NEW_TOPIC_DATA)
     const newOptions=[];
     for(let n=50;n<newTotal;n+=50) newOptions.push(n);
-    if(newTotal>0) newOptions.push(newTotal);
+    newOptions.push(newTotal);
     const newBtns=newOptions.map(n=>
       `<div class="count-btn" style="border-color:var(--new-border);background:#fdfbff" onclick="startExamWithCountNew('${key}',${n})">
         <div class="count-btn-num" style="color:var(--new)">${n===newTotal?'همه':n}</div>
@@ -454,25 +436,8 @@ function showSection(type, key){
       <div class="home-header">
         <div class="home-title">آزمون ${key}</div>
       </div>
-      ${oldTotal>0?`
-      <div class="section-label">آزمون‌های قدیمی — ${oldTotal} سوال</div>
-      <div class="count-grid" style="margin-bottom:8px">
-        ${(() => {
-          const opts=[];
-          for(let n=50;n<oldTotal;n+=50) opts.push(n);
-          opts.push(oldTotal);
-          return opts.map(n=>
-            `<div class="count-btn" onclick="startExamWithCountOld('${key}',${n})">
-              <div class="count-btn-num">${n===oldTotal?'همه':n}</div>
-              <div class="count-btn-lbl">${n===oldTotal?oldTotal+' سوال':n+' سوال'}</div>
-            </div>`
-          ).join('');
-        })()}
-      </div>`:''}
-      ${newTotal>0?`
       <div class="section-label new-label">✨ سوالات جدید — ${newTotal} سوال</div>
-      <div class="count-grid" style="margin-bottom:8px">${newBtns}</div>`:''}
-      `;
+      <div class="count-grid">${newBtns}</div>`;
   }
 }
 
@@ -543,11 +508,9 @@ function startExam(mode, key){
   curMode=mode; curKey=key;
   let raw=[];
   if(mode==='series'){
-    raw=EXAM_DATA[key]||EXAM_DATA[String(key)]||[];
+    raw=(NEW_EXAM_DATA&&NEW_EXAM_DATA[key])||[];
   } else {
-    const oldQs=TOPIC_DATA[key]||[];
-    const newQs=NEW_TOPIC_DATA[key]||[];
-    raw=[...oldQs,...newQs];
+    raw=NEW_TOPIC_DATA[key]||[];
   }
   raw=[...raw].sort(()=>Math.random()-.5);
   questions=raw.map(q=>{
